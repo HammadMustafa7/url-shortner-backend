@@ -46,15 +46,10 @@ async function handleFetchURL(req: Request, res: Response) {
     }
 
     const entry = await URL.findOneAndUpdate(
-      {
-        shortId: id,
-      },
-      {
-        $push: {
-          visitHistory: { timeStamp: new Date() },
-        },
-      },
-    );
+      { shortId: id },
+      { $push: { visitHistory: { timeStamp: new Date() } } },
+      { new: false },
+    ).lean();
 
     if (!entry) {
       return res.status(404).json({
@@ -63,7 +58,7 @@ async function handleFetchURL(req: Request, res: Response) {
       });
     }
 
-    res.status(301).redirect(entry?.redirectUrl);
+    res.status(301).redirect(entry.redirectUrl);
   } catch (error) {
     res.status(500).json({
       status: "error",
@@ -83,11 +78,9 @@ async function handleGetAnalytics(req: Request, res: Response) {
       });
     }
 
-    const result = await URL.findOne(
-      {
-        shortId: id,
-      },
-    );
+    const result = await URL.findOne({
+      shortId: id,
+    });
 
     if (!result) {
       return res.status(404).json({
