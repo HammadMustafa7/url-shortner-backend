@@ -99,7 +99,7 @@ async function handleGetAnalytics(req: Request, res: Response) {
     res.status(201).json({
       status: "success",
       totalClicks: result.visitHistory.length,
-      analytics: result.visitHistory,
+      // analytics: result.visitHistory,
     });
   } catch (error) {
     res.status(500).json({
