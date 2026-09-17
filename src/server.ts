@@ -9,7 +9,9 @@ const server = app.listen(process.env.PORT, async () => {
     console.log(
       `Server is running in ${process.env.NODE_ENV || "development"} mode on port ${process.env.PORT}`,
     );
-    console.log(`Health check: http://localhost:${process.env.PORT}/api/v1/health`);
+    console.log(
+      `Health check: ${process.env.BACKEND_URL}/api/v1/health`,
+    );
   } catch (error) {
     console.error("Failed to start server:", error);
     process.exit(1);
